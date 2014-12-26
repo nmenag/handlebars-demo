@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="handlebars-v2.0.0.js"></script>
+</head>
+<body>
+  <div id="posts">
+    <button id="get-post">Ver posts</button>   
+  </div>
+  <script id="entry-template" type="text/x-handlebars-template">
+  {{#each posts}}
+  <h1>{{title}}</h1>
+  <p>{{body}}</p>
+  {{/each}}
+  </script>
+
+
+<script>
+  $("#get-post").click(function() {
+    $.get('http://jsonplaceholder.typicode.com/posts', function(data){
+      var datos ={};
+      datos.posts = data;
+      //Compilamos el template:
+      var source   = $("#entry-template").html();
+      var template = Handlebars.compile(source);    
+      var posts = template(datos);
+      $("#posts").html(posts);
+    });
+  });
+</script>
+</body>
+</html>
